@@ -1,7 +1,6 @@
 package com.rightmove.demo.springbootnative.controller;
 
 import java.net.URI;
-import java.util.concurrent.ExecutionException;
 
 import com.rightmove.demo.springbootnative.repository.ObjectNotFoundException;
 import com.rightmove.demo.springbootnative.service.PersonService;
@@ -29,24 +28,12 @@ public class PersonController {
 			return ResponseEntity.ok(personDto);
 		} catch (ObjectNotFoundException e) {
 			return ResponseEntity.notFound().build();
-		} catch (ExecutionException e) {
-			return ResponseEntity.internalServerError().build();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			return ResponseEntity.internalServerError().build();
 		}
 	}
 
 	@PostMapping
 	public ResponseEntity<PersonDto> storePerson(@RequestBody PersonDto personDto) {
-		try {
-			String id = personService.storePerson(personDto);
-			return ResponseEntity.created(URI.create(String.format(GET_PERSON_BY_ID_URL, id))).build();
-		} catch (ExecutionException e) {
-			return ResponseEntity.internalServerError().build();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			return ResponseEntity.internalServerError().build();
-		}
+		String id = personService.storePerson(personDto);
+		return ResponseEntity.created(URI.create(String.format(GET_PERSON_BY_ID_URL, id))).build();
 	}
 }

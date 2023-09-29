@@ -1,7 +1,6 @@
 package com.rightmove.demo.springbootnative.service;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 import com.rightmove.demo.springbootnative.client.AgifyClient;
 import com.rightmove.demo.springbootnative.controller.PersonDto;
@@ -20,12 +19,12 @@ public class PersonService {
 	private final PersonRepository personRepository;
 	private final AgifyClient agifyClient;
 
-	public PersonDto getPerson(String id) throws ExecutionException, InterruptedException {
+	public PersonDto getPerson(String id) {
 		Person person = personRepository.getById(id);
 		return PersonDto.fromPerson(person);
 	}
 
-	public String storePerson(PersonDto personDto) throws ExecutionException, InterruptedException {
+	public String storePerson(PersonDto personDto) {
 		long age;
 		try {
 			age = agifyClient.getAgeForName(personDto.firstName());
